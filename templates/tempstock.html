@@ -1,0 +1,69 @@
+{% load staticfiles %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+	<title>Gráfico de temperatura...</title>
+	<meta charset="UTF-8"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://code.highcharts.com/stock/highstock.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+</head>
+
+<body>
+
+<div id="container" style="height: 400px; min-width: 310px"></div>
+
+<div id="humid" style="height: 400px; min-width: 310px"></div>
+
+<script>
+$(function () {
+    $.getJSON('http://127.0.0.1:8000/tempjs/', function (data) {
+        // Create the chart
+        window.chart = new Highcharts.StockChart({
+        	chart: { renderTo: 'container' },
+            title: { text: 'Temperature' },
+            series: [
+                {
+	                name: 'Sensor 1',
+	                data: data[0],
+	                tooltip: { valueDecimals: 2 }
+                }, {
+	                name: 'Sensor 2',
+	                data: data[1],
+	                tooltip: { valueDecimals: 2 }
+                }
+            ]
+        });
+    });
+});
+
+$(function () {
+    $.getJSON('http://127.0.0.1:8000/humidjs/', function (data) {
+        // Create the chart
+        window.chart2 = new Highcharts.StockChart({
+        	chart: { renderTo: 'humid' },
+            title: { text: 'Humidity' },
+            series: [
+                {
+	                name: 'Sensor 1',
+	                data: data[0],
+	                tooltip: { valueDecimals: 2 }
+                }, {
+	                name: 'Sensor 2',
+	                data: data[1],
+	                tooltip: { valueDecimals: 2 }
+                }
+            ]
+        });
+    });
+});
+</script>
+
+</body>
+
+</html>

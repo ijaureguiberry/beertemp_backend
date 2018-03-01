@@ -1,0 +1,66 @@
+{% load staticfiles %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<title>Gráfico de temperatura...</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="{% static "style.css" %}">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<script type="text/javascript" src="{% static "dygraph-combined-dev.js" %}"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="row"> <!-- Main content -->
+
+<div class="col-sm-12">
+
+<div class="page-header">
+<h1>Gráfico de temperaturas</h1>
+</div>
+
+<div id="templegend" style="width:800px; height: 40px;"></div>
+<div id="tempgraph" style="width:800px; height:200px;"></div>
+
+<div id="humidlegend" style="width:800px; height: 40px;"></div>
+<div id="humidgraph" style="width:800px; height:200px;"></div>
+
+<script type="text/javascript">
+  g2 = new Dygraph(document.getElementById("tempgraph"),
+    "/tempcsv/", // path to CSV file
+    {
+    	legend: 'always',
+  		ylabel: 'Temperatura',
+  		labelsDiv: 'templegend',
+  		labelsDivWidth: 600
+    }
+  );
+
+  g3 = new Dygraph(document.getElementById("humidgraph"),
+    "/humidcsv/", // path to CSV file
+    {
+    	legend: 'always',
+  		ylabel: 'Humedad',
+  		labelsDiv: 'humidlegend',
+  		labelsDivWidth: 600
+    }
+  );
+</script>
+
+</div> <!-- column -->
+</div> <!-- row main -->
+</div> <!-- container -->
+</body>
+
+</html>
