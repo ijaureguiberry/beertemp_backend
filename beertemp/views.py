@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 import random
 
-from models import TemperatureRecord
+from beertemp.models import TemperatureRecord
 
 
 def report(request):
@@ -24,8 +24,7 @@ def report(request):
         TemperatureRecord.objects.create(
             t0=t0, h0=h0, t1=t1, h1=h1, time=when
         )
-    except Exception, e:
-        print e
+    except Exception as e:
         response = "Backend - ERROR"
 
     return HttpResponse(response)
@@ -44,8 +43,8 @@ def dostuff(request):
     h0 = 55.0
     h1 = 56.0
     while dt > timezone.now() - timedelta(days=2):
-        print dt, t0, t1, h0, h1
-        # TemperatureRecord.objects.create(t0=t0, h0=h0, t1=t1, h1=h1, time=dt)
+        print(dt, t0, t1, h0, h1)
+        TemperatureRecord.objects.create(t0=t0, h0=h0, t1=t1, h1=h1, time=dt)
         t0 += random.uniform(-1.0, 1.0)
         t1 += random.uniform(-1.0, 1.0)
         h0 += random.uniform(-2.0, 2.0)
