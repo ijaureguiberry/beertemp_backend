@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load tz %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
 
@@ -22,7 +22,7 @@
 
 <script>
 $(function () {
-    $.getJSON('http://127.0.0.1:8000/tempjs/', function (data) {
+    $.getJSON('http://{{host}}/tempjs/', function (data) {
         // Create the chart
         window.chart = new Highcharts.StockChart({
         	chart: { renderTo: 'container' },
@@ -43,7 +43,7 @@ $(function () {
 });
 
 $(function () {
-    $.getJSON('http://127.0.0.1:8000/humidjs/', function (data) {
+    $.getJSON('http://{{host}}/humidjs/', function (data) {
         // Create the chart
         window.chart2 = new Highcharts.StockChart({
         	chart: { renderTo: 'humid' },

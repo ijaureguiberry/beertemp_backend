@@ -9,6 +9,8 @@ from beertemp.models import TemperatureRecord
 
 
 def report(request):
+    # A very simple response as this is intended to interact with
+    # a limited resources processor (arduino?)
     response = "Backend - OK!"
     t0 = request.GET.get('t0', None)
     h0 = request.GET.get('h0', None)
@@ -29,10 +31,13 @@ def report(request):
 
     return HttpResponse(response)
 
+
 def _normalize(v, vmin, vmax):
     return max(min(v, vmax), vmin)
 
+
 def dostuff(request):
+    # Simulates metrics.
     dt = timezone.now()
     tdelta = timedelta(minutes=5)
 
@@ -56,10 +61,12 @@ def dostuff(request):
         dt = dt - tdelta
     return HttpResponse("Done!")
 
+
 def templog(request):
     tinstances = TemperatureRecord.objects.all()
     tdata = [str(ti) for ti in tinstances]
     return HttpResponse("<br/>\n".join(tdata))
+
 
 def tempcsv(request):
     tz = timezone.get_current_timezone()
@@ -71,6 +78,7 @@ def tempcsv(request):
         for t in tinstances
     ]
     return HttpResponse(csv_headr + "\n" + "\n".join(lines))
+
 
 def tempjs(request):
     tz = timezone.get_current_timezone()
@@ -89,6 +97,7 @@ def tempjs(request):
     response = HttpResponse("[" + t0 + ",\n" + t1 + "\n]", content_type="text/javascript")
     return response
 
+
 def humidjs(request):
     tz = timezone.get_current_timezone()
     tinstances = TemperatureRecord.objects.all().order_by('time')
@@ -106,6 +115,7 @@ def humidjs(request):
     response = HttpResponse("[" + t0 + ",\n" + t1 + "\n]", content_type="text/javascript")
     return response
 
+
 def humidcsv(request):
     tz = timezone.get_current_timezone()
     tinstances = TemperatureRecord.objects.all().order_by('time')
@@ -117,10 +127,13 @@ def humidcsv(request):
     ]
     return HttpResponse(csv_headr + "\n" + "\n".join(lines))
 
+
 def tempgraph(request):
     context = dict()
     return render_to_response("tempgraph.html", context)
 
+
 def tempstock(request):
     context = dict()
+    context["host"] = request.get_host()
     return render_to_response("tempstock.html", context)
